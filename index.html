@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>地圖探險家</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="config.js"></script>
+</head>
+<body>
+  <!-- 地圖 / 街景容器 -->
+  <div id="map"></div>
+
+  <!-- 街景中的角色與寶物圖層 -->
+  <div id="sv-layer" hidden>
+    <div id="sv-items"></div>
+    <div class="sv-player" id="sv-player">
+      <div class="sv-player-name" id="sv-player-name"></div>
+      <div class="sv-player-body" id="sv-player-body">🧙</div>
+      <div class="sv-player-shadow"></div>
+    </div>
+  </div>
+
+  <!-- 遊戲 HUD -->
+  <div id="hud" hidden>
+    <div class="player-card">
+      <div class="pc-avatar" id="hud-avatar">🧙</div>
+      <div class="pc-info">
+        <div class="pc-name"><span id="hud-name">旅人</span> <span class="pc-level">Lv.<span id="hud-level">1</span></span></div>
+        <div class="xp-bar"><div class="xp-fill" id="hud-xp-fill"></div></div>
+        <div class="pc-stats">
+          <span title="收集寶物">🎒 <b id="hud-items">0</b></span>
+          <span title="移動距離">👣 <b id="hud-dist">0 m</b></span>
+          <span title="發現地區">🗺️ <b id="hud-areas">0</b></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="location-chip" id="hud-location">📍 探索中…</div>
+
+    <div class="tracker" id="hud-tracker" title="最近的寶物">
+      <div class="tracker-arrow" id="tracker-arrow">➤</div>
+      <div class="tracker-text"><span id="tracker-emoji">🪙</span> <span id="tracker-dist">--</span></div>
+    </div>
+
+    <div class="toolbar">
+      <button class="tb-btn" id="btn-sv" title="進入街景 (V)"><span>👁️</span><small>街景</small></button>
+      <button class="tb-btn" id="btn-center" title="回到角色 (C)"><span>🎯</span><small>角色</small></button>
+      <button class="tb-btn" id="btn-teleport" title="傳送 (T)"><span>🌀</span><small>傳送</small></button>
+      <button class="tb-btn" id="btn-journal" title="冒險日誌 (J)"><span>📖</span><small>日誌</small></button>
+      <button class="tb-btn" id="btn-settings" title="設定"><span>⚙️</span><small>設定</small></button>
+    </div>
+
+    <div class="hints" id="hints">
+      <div class="hint-map"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> / 方向鍵 移動 · <kbd>Shift</kbd> 奔跑 · 點地圖走過去 · <kbd>V</kbd> 街景</div>
+      <div class="hint-sv"><kbd>W</kbd>/<kbd>↑</kbd> 前進 · <kbd>S</kbd>/<kbd>↓</kbd> 後退 · <kbd>A</kbd><kbd>D</kbd>/<kbd>←</kbd><kbd>→</kbd> 轉向 · 點寶物收集 · <kbd>Esc</kbd> 離開</div>
+    </div>
+
+    <div class="dpad" id="dpad">
+      <button data-key="ArrowUp" class="dp-up">▲</button>
+      <button data-key="ArrowLeft" class="dp-left">◀</button>
+      <button data-key="ShiftLeft" class="dp-mid" title="奔跑">🏃</button>
+      <button data-key="ArrowRight" class="dp-right">▶</button>
+      <button data-key="ArrowDown" class="dp-down">▼</button>
+    </div>
+  </div>
+
+  <div id="toasts"></div>
+
+  <!-- 開始畫面 -->
+  <div class="modal" id="start-screen">
+    <div class="modal-card start-card">
+      <div class="logo">🌏</div>
+      <h1>地圖探險家</h1>
+      <p class="subtitle">在真實世界的地圖上冒險：收集寶物、發現新地區，還能走進街景！</p>
+
+      <label class="field">
+        <span>角色名稱</span>
+        <input id="in-name" maxlength="12" placeholder="旅人" />
+      </label>
+
+      <div class="field">
+        <span>選擇角色</span>
+        <div class="avatar-grid" id="avatar-grid"></div>
+      </div>
+
+      <label class="field" id="key-field">
+        <span>Google Maps API 金鑰</span>
+        <input id="in-key" placeholder="AIza…" autocomplete="off" spellcheck="false" />
+        <small>需啟用 Maps JavaScript API（建議同時啟用 Geocoding API）。金鑰只會存在你的瀏覽器中。</small>
+      </label>
+
+      <div class="start-error" id="start-error" hidden></div>
+
+      <button class="btn-primary" id="btn-start">開始冒險 ▶</button>
+    </div>
+  </div>
+
+  <!-- 面板（傳送 / 日誌 / 設定） -->
+  <div class="modal" id="panel" hidden>
+    <div class="modal-card panel-card">
+      <div class="panel-head">
+        <h2 id="panel-title"></h2>
+        <button class="icon-btn" id="panel-close" aria-label="關閉">✕</button>
+      </div>
+      <div class="panel-body" id="panel-body"></div>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
